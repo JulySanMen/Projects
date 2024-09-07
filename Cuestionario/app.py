@@ -37,13 +37,13 @@ class Respuesta(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route('/sulver', methods=['GET', 'POST'])
+@app.route('/survery', methods=['GET', 'POST'])
 def survey():
     if request.method == 'POST':
         # Save responses to database
         pass
     preguntas = Pregunta.query.all()
-    return render_template('sulver.html', preguntas=preguntas)
+    return render_template('survey.html', preguntas=preguntas)
 
 @app.route('/graficar')
 def results():
