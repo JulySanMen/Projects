@@ -8,7 +8,7 @@ import numpy as np
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/db_name'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:G170122fg#@localhost/Cuest'
 db = SQLAlchemy(app)
 
 class Usuario(db.Model):
@@ -37,18 +37,18 @@ class Respuesta(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route('/survey', methods=['GET', 'POST'])
+@app.route('/sulver', methods=['GET', 'POST'])
 def survey():
     if request.method == 'POST':
         # Save responses to database
         pass
     preguntas = Pregunta.query.all()
-    return render_template('survey.html', preguntas=preguntas)
+    return render_template('sulver.html', preguntas=preguntas)
 
-@app.route('/results')
+@app.route('/graficar')
 def results():
     # Calculate learning style and generate spider chart
-    return render_template('results.html', plot_url=generate_spider_chart())
+    return render_template('graficar.html', plot_url=generate_spider_chart())
 
 def generate_spider_chart():
     # Calculate results and create spider chart
