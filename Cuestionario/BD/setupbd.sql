@@ -1,36 +1,114 @@
-
-
-CREATE DATABASE IF NOT EXISTS cuestionario;
-USE cuestionario;
-
-CREATE TABLE participantes (
+CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255),
-    correo VARCHAR(255),
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    nombre VARCHAR(100),
+    email VARCHAR(100),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    pregunta TEXT,
-    estilo ENUM('Activo', 'Reflexivo', 'Teórico', 'Pragmático')
+    texto VARCHAR(255),
+    categoria VARCHAR(50)  -- Puede ser "Activo", "Reflexivo", "Teórico", "Pragmático"
+);
+
+CREATE TABLE opciones_respuesta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    texto VARCHAR(50),
+    valor INT  -- Un valor numérico para facilitar el cálculo (Ej. 1 para Sí, 0 para No, 2 para Tal vez)
 );
 
 CREATE TABLE respuestas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    participante_id INT,
-    pregunta_id INT,
-    respuesta INT,
-    FOREIGN KEY (participante_id) REFERENCES participantes(id),
-    FOREIGN KEY (pregunta_id) REFERENCES preguntas(id)
+    id_usuario INT,
+    id_pregunta INT,
+    id_opcion INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
+    FOREIGN KEY (id_pregunta) REFERENCES preguntas(id),
+    FOREIGN KEY (id_opcion) REFERENCES opciones_respuesta(id)
 );
 
-CREATE TABLE resultados (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    participante_id INT,
-    activo FLOAT,
-    reflexivo FLOAT,
-    teorico FLOAT,
-    pragmatico FLOAT,
-    FOREIGN KEY (participante_id) REFERENCES participantes(id)
-);
+INSERT INTO opciones_respuesta (texto, valor) VALUES
+('Sí', 1),
+('No', 0);
+
+INSERT INTO preguntas (texto) VALUES
+('Tengo fama de decir lo que pienso claramente y sin rodeos.'),
+('Estoy seguro(a) de lo que es bueno y lo que es malo, lo que está bien y lo que está mal.'),
+('Muchas veces actúo sin mirar las consecuencias.'),
+('Normalmente trato de resolver los problemas metódicamente y paso a paso.'),
+('Creo que los formulismos coartan y limitan la actuación libre de las personas.'),
+('Me interesa saber cuáles son los sistemas de valores de los demás y con qué criterios actúan.'),
+('Pienso que el actuar intuitivamente puede ser siempre tan válido como actuar reflexivamente.'),
+('Creo que lo más importante es que las cosas funcionen.'),
+('Procuro estar al tanto de lo que ocurre aquí y ahora.'),
+('Disfruto cuando tengo tiempo para preparar mi trabajo y realizarlo a conciencia.'),
+('Estoy a gusto siguiendo un orden, en las comidas, en el estudio, haciendo ejercicio regularmente.'),
+('Cuando escucho una nueva idea, enseguida comienzo a pensar cómo ponerla en práctica.'),
+('Prefiero las ideas originales y novedosas aunque no sean prácticas.'),
+('Admito y me ajusto a las normas sólo si me sirven para lograr mis objetivos.'),
+('Normalmente encajo bien con personas reflexivas, y me cuesta sintonizar con personas demasiado espontáneas, imprevisibles.'),
+('Escucho con más frecuencia de lo que hablo.'),
+('Prefiero las cosas estructuradas a las desordenadas.'),
+('Cuando poseo cualquier información, trato de interpretarla bien antes de manifestar alguna conclusión.'),
+('Antes de hacer algo estudio con cuidado sus ventajas e inconvenientes.'),
+('Crezco con el reto de hacer algo nuevo y diferente.'),
+('Casi siempre procuro ser coherente con mis criterios y sistemas de valores. Tengo principios y los sigo.'),
+('Cuando hay una discusión no me gusta ir con rodeos.'),
+('Me disgusta implicarme afectivamente en mi ambiente de trabajo. Prefiero mantener relaciones distantes.'),
+('Me gustan más las personas realistas y concretas que las teóricas.'),
+('Me cuesta ser creativo(a), romper estructuras.'),
+('Me siento a gusto con personas espontáneas y divertidas.'),
+('La mayoría de las veces expreso abiertamente cómo me siento.'),
+('Me gusta analizar y dar vueltas a las cosas.'),
+('Me molesta que la gente no se tome en serio las cosas.'),
+('Me atrae experimentar y practicar las últimas técnicas y novedades.'),
+('Soy cauteloso(a) a la hora de sacar conclusiones.'),
+('Prefiero contar con el mayor número de fuentes de información. Cuantos más datos se reúnan para reflexionar, mejor.'),
+('Tiendes a ser perfeccionista.'),
+('Prefiero oír las opiniones de los demás antes de exponer la mía.'),
+('Me gusta afrontar la vida espontáneamente y no tener que planificar todo previamente.'),
+('En las discusiones me gusta observar cómo actúan los demás participantes.'),
+('Me siento incómodo(a) con las personas calladas y demasiado analíticas.'),
+('Juzgo con frecuencia las ideas de los demás por su valor práctico.'),
+('Me agobio si me obligan a acelerar mucho el trabajo para cumplir un plazo.'),
+('En las reuniones, apoyo las ideas prácticas y realistas.'),
+('Es mejor gozar del momento presente que deleitarse pensando en el pasado o en el futuro.'),
+('Me molestan las personas que siempre desean apresurar las cosas.'),
+('Aporto ideas nuevas y espontáneas en los grupos de discusión.'),
+('Pienso que son más consistentes las decisiones fundamentadas en un minucioso análisis que las basadas en la intuición.'),
+('Detecto frecuentemente la inconsistencia y puntos débiles en las argumentaciones de los demás.'),
+('Creo que es preciso saltarse las normas muchas más veces que cumplirlas.'),
+('A menudo caigo en la cuenta de otras formas mejores y más prácticas de hacer las cosas.'),
+('En conjunto hablo más de lo que escucho.'),
+('Prefiero distanciarme de los hechos y observarlos desde otras perspectivas.'),
+('Estoy convencido(a) que debe imponerse la lógica y el razonamiento.'),
+('Me gusta buscar nuevas experiencias.'),
+('Me gusta experimentar y aplicar las cosas.'),
+('Pienso que debemos llegar pronto al grano, al meollo de los temas.'),
+('Siempre trato de conseguir conclusiones e ideas claras.'),
+('Prefiero discutir cuestiones concretas y no perder el tiempo con charlas vacías.'),
+('Me impaciento cuando me dan explicaciones irrelevantes e incoherentes.'),
+('Compruebo antes si las cosas funcionan realmente.'),
+('Hago varios borradores antes de la redacción definitiva de un trabajo.'),
+('Soy consciente de que en las discusiones ayudo a mantener a los demás centrados en el tema, evitando divagaciones.'),
+('Observo que, con frecuencia, soy uno(a) de los(as) más objetivos(as) y desapasionados(as) en las discusiones.'),
+('Cuando algo va mal, le quito importancia y trato de hacerlo mejor.'),
+('Rechazo ideas originales y espontáneas si no las veo prácticas.'),
+('Me gusta sopesar diversas alternativas antes de tomar una decisión.'),
+('Con frecuencia miro hacia delante para prever el futuro.'),
+('En los debates y discusiones prefiero desempeñar un papel secundario antes que ser el(la) líder o el(la) que más participa.'),
+('Me molestan las personas que no actúan con lógica.'),
+('Me resulta incómodo tener que planificar y prever las cosas.'),
+('Creo que el fin justifica los medios en muchos casos.'),
+('Suelo reflexionar sobre los asuntos y problemas.'),
+('El trabajar a conciencia me llena de satisfacción y orgullo.'),
+('Ante los acontecimientos trato de descubrir los principios y teorías en que se basan.'),
+('Con tal de conseguir el objetivo que pretendo, soy capaz de herir sentimientos ajenos.'),
+('No me importa hacer todo lo necesario para que sea efectivo mi trabajo.'),
+('Con frecuencia soy una de las personas que más anima las fiestas.'),
+('Me aburro enseguida en el trabajo metódico y minucioso.'),
+('La gente con frecuencia cree que soy poco sensible a sus sentimientos.'),
+('Suelo dejarme llevar por mis intuiciones.'),
+('Si trabajo en grupo procuro que se siga un método y un orden.'),
+('Con frecuencia me interesa averiguar lo que piensa la gente.'),
+('Esquivo los temas subjetivos, ambiguos y poco claros.');
