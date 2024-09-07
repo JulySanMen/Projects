@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+</head>
+<body>
+    <h1>Encuesta</h1>
+    <form action="{{ url_for('survey') }}" method="post">
+        {% for pregunta in preguntas %}
+            <div>
+                <p>{{ pregunta.texto }}</p>
+                <!-- Display options for each question -->
+            </div>
+        {% endfor %}
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
