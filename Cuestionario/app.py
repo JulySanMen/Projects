@@ -17,7 +17,7 @@ class Usuario(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     fecha_registro = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-class Pregunta(db.Model):
+class Preguntas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.String(255), nullable=False)
     categoria = db.Column(db.Enum('Activo', 'Reflexivo', 'Teórico', 'Pragmático'), nullable=False)
